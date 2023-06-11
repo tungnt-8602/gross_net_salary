@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/did"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:paddingHorizontal="8dp"
+    android:paddingVertical="8dp">
+
+    <TableLayout
+        android:id="@+id/insuranceCalculate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="*"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TableRow
+            android:layout_marginVertical="4dp"
+            android:background="@color/green_200"
+            android:padding="4dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="start"
+                android:text="@string/gross"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/grossVal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="end|center_vertical"
+                android:text="@string/unknown"
+                android:textSize="18sp" />
+
+        </TableRow>
+
+        <TableRow
+
+
+            android:layout_marginVertical="4dp"
+            android:padding="4dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="start"
+                android:text="@string/bhxh"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/bhxhValue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="end|center_vertical"
+                android:text="@string/unknown"
+                android:textSize="18sp" />
+        </TableRow>
+
+        <TableRow
+
+
+            android:layout_marginVertical="4dp"
+            android:padding="4dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="start"
+                android:text="@string/bhyt"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/bhytValue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="end|center_vertical"
+                android:text="@string/unknown"
+                android:textSize="18sp" />
+
+        </TableRow>
+
+        <TableRow
+
+            android:layout_marginVertical="4dp"
+            android:padding="4dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="start"
+                android:text="@string/bhtn"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/bhtnValue"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="end|center_vertical"
+                android:text="@string/unknown"
+                android:textSize="18sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_marginVertical="4dp"
+            android:background="@color/green_200"
+            android:padding="4dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="start"
+                android:text="@string/tntt"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tnttValue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="end|center_vertical"
+                android:text="@string/unknown"
+                android:textSize="18sp" />
+        </TableRow>
+
+        <TableRow
+
+            android:layout_marginVertical="4dp"
+            android:padding="4dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="start"
+                android:text="@string/gcbt"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/gcbtValue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="end|center_vertical"
+                android:text="@string/unknown"
+                android:textSize="18sp" />
+        </TableRow>
+
+        <TableRow
+
+
+            android:layout_marginVertical="4dp"
+            android:padding="4dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="start"
+                android:text="@string/gcnpt"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/gcnptValue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="end|center_vertical"
+                android:text="@string/unknown"
+                android:textSize="18sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_marginVertical="4dp"
+            android:background="@color/green_200"
+            android:padding="4dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="start"
+                android:text="@string/tnct"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tnctValue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="end|center_vertical"
+                android:text="@string/unknown"
+                android:textSize="18sp" />
+        </TableRow>
+
+        <TableRow
+
+            android:layout_marginVertical="4dp"
+            android:padding="4dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="start"
+                android:text="@string/ttncn"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/ttncnValue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="end|center_vertical"
+                android:text="@string/unknown"
+                android:textSize="18sp"
+                tools:ignore="RtlHardcoded" />
+        </TableRow>
+
+        <TableRow
+            android:layout_marginVertical="4dp"
+            android:background="@color/green_200"
+            android:padding="4dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="start"
+                android:text="@string/net"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/netValue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="end|center_vertical"
+                android:text="@string/unknown"
+                android:textSize="18sp" />
+        </TableRow>
+
+    </TableLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

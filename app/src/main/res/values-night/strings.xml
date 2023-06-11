@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="zone_list">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+    <string name="title_activity_insurance">InsuranceACtivity</string>
+
+    <string name="moneyUnit">Đơn vị tiền tệ: </string>
+    <string name="vnd">VND</string>
+    <string name="usd">USD</string>
+    <string name="totalSalary">Tổng Lương: </string>
+    <string name="soi">Mức lương đóng bảo hiểm: </string>
+    <string name="official">Trên lương chính thức</string>
+    <string name="other">Khác:</string>
+    <string name="dependentNum">Số người phụ thuộc: </string>
+    <string name="zone">Vùng:</string>
+    <string name="netNoti">Kết quả của bạn:</string>
+    <string name="gross">Lương Gross</string>
+    <string name="insurance">Bảo hiểm</string>
+    <string name="pit">Thuế TNCN</string>
+    <string name="net">Lương NET</string>
+    <string name="tntt">Thu nhập trước thuế</string>
+    <string name="gcbt">Giảm trừ gia cảnh bản thân</string>
+    <string name="gcnpt">Giảm trừ gia cảnh người phụ thuộc</string>
+    <string name="tnct">Thu nhập chịu thuế</string>
+    <string name="ttncn">Thuế thu nhập cá nhân</string>
+    <string name="caldetail">Chi tiết cách tính</string>
+
+    <string name="netcal"> GROSS -> NET</string>
+
+    <string name="baseSalary">Lương cơ sở</string>
+    <string name="minZSalary">Lương tối thiểu vùng</string>
+    <string name="multiply">X</string>
+    <string name="maxbhxhyt">Lương tối đa tính BHXH, BHYT</string>
+    <string name="maxbhtn">Lương tối đa tính BHTN</string>
+    <string name="bhxh">Bảo hiểm xã hội</string>
+    <string name="bhyt">Bảo hiểm y tế</string>
+    <string name="bhtn">Bảo hiểm thất nghiệp</string>
+
+    <string name="ok">OK</string>
+    <string name="npt">Vợ/chồng, con, ....</string>
+    <string name="unknown">unknown</string>
+    <string name="grosscal">NET -> GROSS</string>
+    <string name="salaryHint">Lương Gross/Net</string>
+    <string name="salary">Thu nhập: </string>
+</resources>

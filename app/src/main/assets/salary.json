@@ -1,0 +1,110 @@
+[
+  {
+    "id": 1,
+    "type": 1,
+    "title": "Bảo hiểm xã hội",
+    "value": 8
+  },
+  {
+    "id": 2,
+    "type": 1,
+    "title": "Bảo hiểm y tế",
+    "value": 1.5
+  },
+  {
+    "id": 3,
+    "type": 1,
+    "title": "Bảo hiểm thất nghiệp",
+    "value": 1
+  },
+  {
+    "id": 4,
+    "type": 2,
+    "title": "Giảm trừ gia cảnh cá nhân",
+    "value": 11000000
+  },
+  {
+    "id": 5,
+    "type": 2,
+    "title": "Giảm trừ gia cảnh người phụ thuộc",
+    "value": 4400000
+  },
+  {
+    "id": 6,
+    "type": 3,
+    "title": "Mức lương tối thiểu vùng",
+    "value": [
+      {
+        "zone": 1,
+        "value": 4680000,
+        "maxbhtn": 93600000
+      },
+      {
+        "zone": 2,
+        "value": 4160000,
+        "maxbhtn": 83200000
+      },
+      {
+        "zone": 3,
+        "value": 3640000,
+        "maxbhtn": 72800000
+      },
+      {
+        "zone": 4,
+        "value": 3250000,
+        "maxbhtn": 65000000
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "type": 4,
+    "title": "Thuế thu nhập cá nhân",
+    "value": [
+      {
+        "min": null,
+        "max": 5000000,
+        "ratio": 5
+      },
+      {
+        "min": 5000000,
+        "max": 10000000,
+        "ratio": 10
+      },
+      {
+        "min": 10000000,
+        "max": 18000000,
+        "ratio": 15
+      },
+      {
+        "min": 18000000,
+        "max": 32000000,
+        "ratio": 20
+      },
+      {
+        "min": 32000000,
+        "max": 52000000,
+        "ratio": 25
+      },
+      {
+        "min": 52000000,
+        "max": 80000000,
+        "ratio": 30
+      },
+      {
+        "min": 80000000,
+        "max": null,
+        "ratio": 35
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "type": 5,
+    "title": "Lương cơ sở",
+    "value": {
+        "rate": 20,
+        "number": 1490000
+      }
+  }
+]
