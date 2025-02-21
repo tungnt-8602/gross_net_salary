@@ -1,56 +1,44 @@
 package com.example.grossnetsalary
 
-import android.annotation.SuppressLint
-import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.EditText
-import android.widget.RadioButton
-import android.widget.RadioGroup
-import android.widget.Spinner
-import android.widget.TableRow
-import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.ui.graphics.Color
-import androidx.constraintlayout.widget.ConstraintLayout
+import com.example.grossnetsalary.databinding.ActivityMainBinding
+import com.example.grossnetsalary.databinding.DialogInsuranceDetailBinding
 import com.example.grossnetsalary.model.BaseSalary
 import com.example.grossnetsalary.model.Deduction
 import com.example.grossnetsalary.model.Insurance
-import com.example.grossnetsalary.model.Item
 import com.example.grossnetsalary.model.MinZoneSalary
 import com.example.grossnetsalary.model.PersonalIncomeTax
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import com.example.grossnetsalary.model.ResultShow
 import java.text.NumberFormat
 import java.util.Locale
 
-
 class MainActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         getInputAndCal()
-
     }
 
-    private fun getInputAndCal(){
-        val grossText = findViewById<TextView>(R.id.grossText)
-        val grossValue = findViewById<EditText>(R.id.grossValue)
-        grossText.setOnClickListener {
-            grossValue.requestFocus()
-            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.showSoftInput(grossValue, InputMethodManager.SHOW_IMPLICIT)
-        }
+    private fun getInputAndCal() {
         var gv = 0
-        grossValue?.addTextChangedListener(object : TextWatcher {
+        val grossValue = binding.grossValue
+
+        binding.grossText.setOnClickListener {
+            grossValue.showKeyboard()
+        }
+        grossValue.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 gv = validateIntInput(s.toString())
             }
@@ -65,15 +53,12 @@ class MainActivity : AppCompatActivity() {
         })
 
         var salaryOnInsurance = validateIntInput(grossValue.text.toString())
-        val otherEditText = findViewById<EditText>(R.id.otherValue)
-        val iso = findViewById<RadioGroup>(R.id.insuranceSalaryOption)
-        iso.setOnCheckedChangeListener { _, checkedId ->
-            if (checkedId == findViewById<RadioButton>(R.id.other).id) {
-                otherEditText?.visibility = View.VISIBLE
-                otherEditText?.requestFocus()
-                val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.showSoftInput(otherEditText, InputMethodManager.SHOW_IMPLICIT)
-                otherEditText?.addTextChangedListener(object : TextWatcher {
+        val otherEditText = binding.otherValue
+        binding.insuranceSalaryOption.setOnCheckedChangeListener { _, checkedId ->
+            if (checkedId == binding.other.id) {
+                otherEditText.visibility = View.VISIBLE
+                otherEditText.showKeyboard()
+                otherEditText.addTextChangedListener(object : TextWatcher {
                     override fun afterTextChanged(s: Editable?) {
                         salaryOnInsurance = validateIntInput(s.toString())
                     }
@@ -84,7 +69,7 @@ class MainActivity : AppCompatActivity() {
                         count: Int,
                         after: Int
                     ) {
-                        salaryOnInsurance = validateIntInput(grossValue?.text.toString())
+                        salaryOnInsurance = validateIntInput(grossValue.text.toString())
                     }
 
                     override fun onTextChanged(
@@ -97,20 +82,17 @@ class MainActivity : AppCompatActivity() {
                 })
 
             } else {
-                otherEditText?.visibility = View.GONE
+                otherEditText.visibility = View.GONE
                 salaryOnInsurance = 1
             }
         }
 
-        val dependentText = findViewById<TextView>(R.id.dependentPersonText)
-        val dependentNum = findViewById<EditText>(R.id.dependentPersonValue)
-        dependentText.setOnClickListener {
-            dependentNum.requestFocus()
-            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.showSoftInput(dependentNum, InputMethodManager.SHOW_IMPLICIT)
+        val dependentNum = binding.dependentPersonValue
+        binding.dependentPersonText.setOnClickListener {
+            dependentNum.showKeyboard()
         }
         var dn = 0
-        dependentNum?.addTextChangedListener(object : TextWatcher {
+        dependentNum.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 dn = validateIntInput(dependentNum.text.toString())
             }
@@ -119,7 +101,7 @@ class MainActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
 
-        val spinner = findViewById<Spinner>(R.id.zoneSpinner)
+        val spinner = binding.zoneSpinner
         val adapter = ArrayAdapter.createFromResource(
             this,
             R.array.zone_list, android.R.layout.select_dialog_item
@@ -143,20 +125,16 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        val netcalbutton = findViewById<Button>(R.id.netButton)
-        netcalbutton.setOnClickListener {
+        binding.netButton.setOnClickListener {
             calculateNet(gv, salaryOnInsurance, dn, selectedZone)
         }
 
-        val grosscalbutton = findViewById<Button>(R.id.grossbutton)
-        grosscalbutton.setOnClickListener {
+        binding.grossbutton.setOnClickListener {
             calculateGross(gv, salaryOnInsurance, dn, selectedZone)
         }
     }
 
-
-    @SuppressLint("SetTextI18n")
-    fun calculateNet(
+    private fun calculateNet(
         grossValue: Int,
         salaryOnInsurance: Int,
         numOfDepender: Int,
@@ -194,18 +172,18 @@ class MainActivity : AppCompatActivity() {
         }
         //validate input
         if (grossValue <= 0) {
-            android.widget.Toast.makeText(
+            Toast.makeText(
                 this,
                 "Vui lòng nhập lương tổng hợp lệ ",
-                android.widget.Toast.LENGTH_SHORT
+                Toast.LENGTH_SHORT
             ).show()
             return
         }
         if (salaryOnInsurance <= 0) {
-            android.widget.Toast.makeText(
+            Toast.makeText(
                 this,
                 "Vui lòng chọn mức lương đóng bảo hiểm hợp lệ",
-                android.widget.Toast.LENGTH_SHORT
+                Toast.LENGTH_SHORT
             ).show()
             return
         }
@@ -215,10 +193,10 @@ class MainActivity : AppCompatActivity() {
             salaryOnInsurance
         }
         if (grossValue < minSalary) {
-            android.widget.Toast.makeText(
+            Toast.makeText(
                 this,
                 "Lương gross phải lớn hơn mức lương tối thiểu vùng: $minSalary",
-                android.widget.Toast.LENGTH_SHORT
+                Toast.LENGTH_SHORT
             ).show()
             return
         } else {
@@ -268,7 +246,7 @@ class MainActivity : AppCompatActivity() {
             tntt = net
             gcbt = deductions[0].value
             gcnpt = numOfDepender * deductions[1].value
-            if (net > (deductions[0].value + numOfDepender * deductions[1].value) ){
+            if (net > (deductions[0].value + numOfDepender * deductions[1].value)) {
                 net -= (gcbt + gcnpt)
             } else {
                 net = 0.0
@@ -302,12 +280,25 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (res != 0.0) {
-            showResult(1, grossValue, bhxh, bhyt, bhtn, tntt, gcbt, gcnpt, ttncn, tnct, res)
+            showResult(
+                ResultShow(
+                    1,
+                    grossValue,
+                    bhxh,
+                    bhyt,
+                    bhtn,
+                    tntt,
+                    gcbt,
+                    gcnpt,
+                    ttncn,
+                    tnct,
+                    res
+                )
+            )
         }
     }
 
-    @SuppressLint("SetTextI18n")
-    fun calculateGross(
+    private fun calculateGross(
         netValue: Int,
         salaryOnInsurance: Int,
         numOfDepender: Int,
@@ -347,18 +338,18 @@ class MainActivity : AppCompatActivity() {
 
         //validate input
         if (netValue <= 0) {
-            android.widget.Toast.makeText(
+            Toast.makeText(
                 this,
                 "Vui lòng nhập lương net hợp lệ ",
-                android.widget.Toast.LENGTH_SHORT
+                Toast.LENGTH_SHORT
             ).show()
             return
         }
         if (salaryOnInsurance <= 0) {
-            android.widget.Toast.makeText(
+            Toast.makeText(
                 this,
                 "Vui lòng chọn mức lương đóng bảo hiểm hợp lệ",
-                android.widget.Toast.LENGTH_SHORT
+                Toast.LENGTH_SHORT
             ).show()
             return
         }
@@ -462,164 +453,143 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-        if(gross < minSalary){
-            android.widget.Toast.makeText(
+        if (gross < minSalary) {
+            Toast.makeText(
                 this,
                 "Không thể tính ra được lương gross lớn hơn lương tối thiểu vùng",
-                android.widget.Toast.LENGTH_SHORT
+                Toast.LENGTH_SHORT
             ).show()
             return
         }
         if (gross != 0.0) {
-            showResult(2, netValue, bhxh, bhyt, bhtn, tntt, gcbt, gcnpt, ttncn, tnct, gross)
+            showResult(
+                ResultShow(
+                    2,
+                    netValue,
+                    bhxh,
+                    bhyt,
+                    bhtn,
+                    tntt,
+                    gcbt,
+                    gcnpt,
+                    ttncn,
+                    tnct,
+                    gross
+                )
+            )
         }
     }
 
-    @SuppressLint("SetTextI18n")
-    private fun showResult(type: Int, input: Int, bhxh: Double, bhyt: Double, bhtn: Double, tntt: Double, gcbt: Int, gcnpt: Int, ttncn: Double, tnct: Double, res: Double) {
+    private fun showResult(resultShow: ResultShow) {
         val formatterVN = NumberFormat.getCurrencyInstance(Locale("vi", "VN"))
-        val resultView = findViewById<ConstraintLayout>(R.id.resultView)
-        val grossResult = findViewById<TextView>(R.id.grossResult)
-        val insuranceResult = findViewById<TextView>(R.id.insuranceResult)
-        val pitaxesResult = findViewById<TextView>(R.id.pitaxesResult)
-        val netResult = findViewById<TextView>(R.id.netResult)
-        val netRow = findViewById<TableRow>(R.id.netRow)
-        val grossRow = findViewById<TableRow>(R.id.grossRow)
-        val netButton = findViewById<Button>(R.id.netButton)
-        val detailButton = findViewById<Button>(R.id.detailButton)
+        val resultView = binding.resultView
+        val grossResult = binding.grossResult
+        val insuranceResult = binding.insuranceResult
+        val pitaxesResult = binding.pitaxesResult
+        val netResult = binding.netResult
+        val netRow = binding.netRow
+        val grossRow = binding.grossRow
+        val detailButton = binding.detailButton
 
         resultView.visibility = View.VISIBLE
 
-        if (type == 1) {
-            grossResult.text = formatterVN.format(input)
-            insuranceResult.text = "- ${formatterVN.format(bhxh + bhyt + bhtn)}"
-            pitaxesResult.text = "- ${formatterVN.format(ttncn)}"
-            netResult.text = formatterVN.format(res)
+        if (resultShow.type == 1) {
+            grossResult.text = formatterVN.format(resultShow.input)
+            insuranceResult.text = getString(
+                R.string.start_dash_str,
+                formatterVN.format(resultShow.bhxh + resultShow.bhyt + resultShow.bhtn)
+            )
+            pitaxesResult.text =
+                getString(R.string.start_dash_str, formatterVN.format(resultShow.ttncn))
+            netResult.text = formatterVN.format(resultShow.res)
 
             netRow.setBackgroundColor(Color.Green.hashCode())
             grossRow.setBackgroundColor(Color.White.hashCode())
 
-            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(netButton.windowToken, 0)
+            binding.root.hideKeyboard()
 
             detailButton.setOnClickListener {
-                showDetailDialog(formatterVN, input.toDouble(), bhxh, bhyt, bhtn, tntt, gcbt, gcnpt, ttncn, tnct, res)
+                showDetailDialog(
+                    formatterVN,
+                    ResultShow(
+                        1, resultShow.input,
+                        resultShow.bhxh,
+                        resultShow.bhyt,
+                        resultShow.bhtn,
+                        resultShow.tntt,
+                        resultShow.gcbt,
+                        resultShow.gcnpt,
+                        resultShow.ttncn,
+                        resultShow.tnct,
+                        resultShow.res
+                    )
+                )
             }
         } else {
-            grossResult.text = formatterVN.format(res)
-            insuranceResult.text = "- ${formatterVN.format(bhxh + bhyt + bhtn)}"
-            pitaxesResult.text = "- ${formatterVN.format(ttncn)}"
-            netResult.text = formatterVN.format(input)
+            grossResult.text = formatterVN.format(resultShow.res)
+            insuranceResult.text = getString(
+                R.string.start_dash_str,
+                formatterVN.format(resultShow.bhxh + resultShow.bhyt + resultShow.bhtn)
+            )
+            pitaxesResult.text =
+                getString(R.string.start_dash_str, formatterVN.format(resultShow.ttncn))
+            netResult.text = formatterVN.format(resultShow.input)
 
             netRow.setBackgroundColor(Color.White.hashCode())
             grossRow.setBackgroundColor(Color.Green.hashCode())
 
-            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(netButton.windowToken, 0)
+            binding.root.hideKeyboard()
 
             detailButton.setOnClickListener {
-                showDetailDialog(formatterVN, res, bhxh, bhyt, bhtn, tntt, gcbt, gcnpt, ttncn, tnct, input.toDouble()
+                showDetailDialog(
+                    formatterVN,
+                    ResultShow(
+                        1, resultShow.res.toInt(),
+                        resultShow.bhxh,
+                        resultShow.bhyt,
+                        resultShow.bhtn,
+                        resultShow.tntt,
+                        resultShow.gcbt,
+                        resultShow.gcnpt,
+                        resultShow.ttncn,
+                        resultShow.tnct,
+                        resultShow.input.toDouble()
+                    )
                 )
             }
         }
     }
 
-    @SuppressLint("SetTextI18n")
-    private fun showDetailDialog(formatterVN: NumberFormat, grossVal: Double, bhxh: Double, bhyt: Double, bhtn: Double, tntt: Double, gcbt: Int, gcnpt: Int, ttncn: Double, tnct: Double, netValue: Double) {
+    private fun showDetailDialog(
+        formatterVN: NumberFormat,
+        resultShow: ResultShow,
+    ) {
         val builder: AlertDialog.Builder = AlertDialog.Builder(this)
         builder.setTitle("Diễn giải chi tiết")
-        val inflater = layoutInflater
-        val dialogView = inflater.inflate(R.layout.dialog_insurance_detail, null)
-        builder.setView(dialogView)
-            .setPositiveButton(R.string.ok) { dialog, id -> }
 
-        dialogView.findViewById<TextView>(R.id.grossVal).text = formatterVN.format(grossVal)
-        dialogView.findViewById<TextView>(R.id.bhxhValue).text = "- ${formatterVN.format(bhxh)}"
-        dialogView.findViewById<TextView>(R.id.bhytValue).text = "- ${formatterVN.format(bhyt)}"
-        dialogView.findViewById<TextView>(R.id.bhtnValue).text = "- ${formatterVN.format(bhtn)}"
-        dialogView.findViewById<TextView>(R.id.tnttValue).text = formatterVN.format(tntt)
-        dialogView.findViewById<TextView>(R.id.gcbtValue).text = "- ${formatterVN.format(gcbt)}"
-        dialogView.findViewById<TextView>(R.id.gcnptValue).text = "- ${formatterVN.format(gcnpt)}"
-        dialogView.findViewById<TextView>(R.id.ttncnValue).text = "- ${formatterVN.format(ttncn)}"
-        dialogView.findViewById<TextView>(R.id.tnctValue).text = formatterVN.format(tnct)
-        dialogView.findViewById<TextView>(R.id.netValue).text = formatterVN.format(netValue)
+        val dialogBinding =
+            DialogInsuranceDetailBinding.inflate(layoutInflater) // Inflate using binding
+        builder.setView(dialogBinding.root) // Set the root of the binding layout
 
-        val dialog: AlertDialog = builder.create()
-        dialog.show()
-    }
+        builder.setPositiveButton(R.string.ok) { dialog, _ -> dialog.dismiss() }
 
+        dialogBinding.grossVal.text = formatterVN.format(resultShow.input)
+        dialogBinding.bhxhValue.text =
+            getString(R.string.start_dash_str, formatterVN.format(resultShow.bhxh))
+        dialogBinding.bhytValue.text =
+            getString(R.string.start_dash_str, formatterVN.format(resultShow.bhyt))
+        dialogBinding.bhtnValue.text =
+            getString(R.string.start_dash_str, formatterVN.format(resultShow.bhtn))
+        dialogBinding.tnttValue.text = formatterVN.format(resultShow.tntt)
+        dialogBinding.gcbtValue.text =
+            getString(R.string.start_dash_str, formatterVN.format(resultShow.gcbt))
+        dialogBinding.gcnptValue.text =
+            getString(R.string.start_dash_str, formatterVN.format(resultShow.gcnpt))
+        dialogBinding.ttncnValue.text =
+            getString(R.string.start_dash_str, formatterVN.format(resultShow.ttncn))
+        dialogBinding.tnctValue.text = formatterVN.format(resultShow.tnct)
+        dialogBinding.netValue.text = formatterVN.format(resultShow.res)
 
-    private fun convertJsonToObject(context: Context): ConvertedData {
-        val gson = Gson()
-        val jsonString =
-            context.assets.open("salary.json").bufferedReader().use { it.readText() }
-        val listTax = object : TypeToken<ArrayList<Item>>() {}.type
-        val items: ArrayList<Item> = gson.fromJson(jsonString, listTax)
-
-        var part1 = "["
-        var part2 = "["
-        var part3 = "["
-        var part4 = "["
-        var part5 = "["
-
-        for (item in items) {
-            when (item.type) {
-                1 -> part1 += gson.toJson(item) + ","
-                2 -> part2 += gson.toJson(item) + ","
-                3 -> part3 += gson.toJson(item) + ","
-                4 -> part4 += gson.toJson(item) + ","
-                5 -> part5 += gson.toJson(item) + ","
-            }
-        }
-        part1 = customString(part1)
-        part2 = customString(part2)
-        part3 = customString(part3)
-        part4 = customString(part4)
-        part5 = customString(part5)
-
-        val insurances: List<Insurance> =
-            gson.fromJson(part1, object : TypeToken<List<Insurance>>() {}.type)
-        val deductions: List<Deduction> =
-            gson.fromJson(part2, object : TypeToken<List<Deduction>>() {}.type)
-        val minZoneSalarys: List<MinZoneSalary> =
-            gson.fromJson(part3, object : TypeToken<List<MinZoneSalary>>() {}.type)
-        val personalIncomeTaxs: List<PersonalIncomeTax> =
-            gson.fromJson(part4, object : TypeToken<List<PersonalIncomeTax>>() {}.type)
-        val baseSalaries: List<BaseSalary> =
-            gson.fromJson(part5, object : TypeToken<List<BaseSalary>>() {}.type)
-
-        return ConvertedData(
-            insurances,
-            deductions,
-            minZoneSalarys,
-            personalIncomeTaxs,
-            baseSalaries
-        )
-    }
-
-    data class ConvertedData(
-        val insurances: List<Insurance>,
-        val deductions: List<Deduction>,
-        val minZoneSalaries: List<MinZoneSalary>,
-        val personalIncomeTaxes: List<PersonalIncomeTax>,
-        val baseSalaries: List<BaseSalary>
-    )
-
-    fun validateIntInput(str: String): Int {
-        return if (str == "") {
-            0
-        } else {
-            str.toInt()
-        }
-    }
-
-    private fun customString(input: String): String {
-        return input.run {
-            if (endsWith(",")) {
-                dropLast(1) + "]"
-            } else {
-                this
-            }
-        }
+        builder.create().show()
     }
 }

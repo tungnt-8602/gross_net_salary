@@ -46,4 +46,5 @@
     <string name="grosscal">NET -> GROSS</string>
     <string name="salaryHint">Lương Gross/Net</string>
     <string name="salary">Thu nhập: </string>
+    <string name="start_dash_str">- %1$s</string>
 </resources>

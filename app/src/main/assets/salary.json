@@ -36,22 +36,22 @@
     "value": [
       {
         "zone": 1,
-        "value": 4680000,
+        "value": 4960000,
         "maxbhtn": 93600000
       },
       {
         "zone": 2,
-        "value": 4160000,
+        "value": 4410000,
         "maxbhtn": 83200000
       },
       {
         "zone": 3,
-        "value": 3640000,
+        "value": 3860000,
         "maxbhtn": 72800000
       },
       {
         "zone": 4,
-        "value": 3250000,
+        "value": 3450000,
         "maxbhtn": 65000000
       }
     ]
@@ -104,7 +104,7 @@
     "title": "Lương cơ sở",
     "value": {
         "rate": 20,
-        "number": 1490000
+        "number": 2340000
       }
   }
 ]
